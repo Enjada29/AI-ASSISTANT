@@ -1,0 +1,28 @@
+# Virtual environments
+venv/
+venv311/
+.env
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Data and cache files (keep structure, exclude large data)
+data/*.json
+data/*.bin
+data/*.pkl
+uploads/
+*.db
+
+# Docker & build files
+*.pid
+*.sock
+
+# IDE
+.vscode/
+.idea/

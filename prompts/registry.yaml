@@ -1,0 +1,91 @@
+version: "1.0"
+prompts:
+  - name: "rag_query"
+    version: "1.0"
+    description: "Optimized prompt for RAG-based question answering"
+    template: |
+      Based on the following context from uploaded documents, please answer the question accurately and concisely.
+      If the context doesn't contain enough information to answer the question, please say so.
+      
+      Context:
+      {context}
+      
+      Question: {question}
+      
+      Answer:
+    variables: ["context", "question"]
+    performance_metrics:
+      accuracy_threshold: 0.85
+      expected_tokens: 200
+      
+  - name: "summarization"
+    version: "1.0"
+    description: "Prompt for document summarization with length control"
+    template: |
+      Please provide a comprehensive summary of the following text. 
+      Focus on key points, main arguments, and important details.
+      
+      Target length: {summary_length}
+      
+      Text to summarize:
+      {text}
+      
+      Summary:
+    variables: ["text", "summary_length"]
+    performance_metrics:
+      accuracy_threshold: 0.80
+      expected_tokens: 150
+      
+  - name: "translation"
+    version: "1.0"
+    description: "Multi-language translation prompt with context preservation"
+    template: |
+      Translate the following text from {source_language} to {target_language}.
+      Maintain the original tone, style, and technical terminology when possible.
+      If the text contains domain-specific terms, provide both translation and original term in parentheses.
+      
+      Text to translate:
+      {text}
+      
+      Translation:
+    variables: ["text", "source_language", "target_language"]
+    performance_metrics:
+      accuracy_threshold: 0.90
+      expected_tokens: 250
+      
+  - name: "web_search_qa"
+    version: "1.0"
+    description: "Prompt for answering questions using web search results"
+    template: |
+      Based on the following web search results, provide a comprehensive answer to the question.
+      Cite sources when possible and indicate confidence level in your answer.
+      
+      Question: {question}
+      
+      Search Results:
+      {search_results}
+      
+      Answer:
+    variables: ["question", "search_results"]
+    performance_metrics:
+      accuracy_threshold: 0.75
+      expected_tokens: 300
+      
+  - name: "agent_decision"
+    version: "1.0" 
+    description: "Prompt for determining which tool to use for a query"
+    template: |
+      Analyze the following query and determine the best approach:
+      1. RAG (if query relates to uploaded documents)
+      2. Web search (if query needs current/recent information)
+      3. Translation (if query involves language translation)
+      4. Summarization (if query asks for summary)
+      
+      Query: {query}
+      Available context score: {context_score}
+      
+      Respond with exactly one word: RAG, WEB, TRANSLATE, or SUMMARIZE
+    variables: ["query", "context_score"]
+    performance_metrics:
+      accuracy_threshold: 0.90
+      expected_tokens: 50

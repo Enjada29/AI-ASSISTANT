@@ -1,0 +1,121 @@
+{
+  "info": {
+    "name": "AI-Assistant",
+    "_postman_id": "ai-assistant-001",
+    "description": "Postman collection for the AI-Assistant API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": [""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Upload Documents",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "files",
+              "type": "file",
+              "src": "docs/university.txt"
+            },
+            {
+              "key": "files",
+              "type": "file",
+              "src": "docs/technology.txt"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8000/documents",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["documents"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Query (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/query?q=What+is+AI%3F",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["query"],
+          "query": [
+            {
+              "key": "q",
+              "value": "What is AI?"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Query (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "q",
+              "value": "What is AI?",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8000/query",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["query"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/dashboard",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["dashboard"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

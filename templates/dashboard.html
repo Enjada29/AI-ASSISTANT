@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Knowledge Assistant Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; }
+        h1, h3 { color: #333; }
+        .container { max-width: 900px; margin: auto; }
+        .controls { margin-bottom: 15px; }
+        button {
+            margin-right: 10px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            transition: 0.2s;
+        }
+        button:hover { opacity: 0.9; }
+        button.active { background-color: #2196F3; }
+        .chunk {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .score { font-weight: bold; }
+        .low { background-color: #ddffdd; }      /* High retrieval confidence */
+        .medium { background-color: #fff0b3; }   /* Medium retrieval confidence */
+        .high { background-color: #ffdddd; }     /* Low retrieval confidence */
+        .chunks-wrapper { max-height: 600px; overflow-y: auto; padding-right: 5px; }
+        .info { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Knowledge Assistant Dashboard</h1>
+
+        {% if query %}
+            <div class="info">
+                <h3>Query: {{ query }}</h3>
+                <p>Retrieval Confidence: {{ retrieval_confidence }}</p>
+                <p>Agent Decision: {{ agent_decision }}</p>
+            </div>
+        {% endif %}
+
+        <h3>Chunks Found ({{ chunks|length }})</h3>
+
+        {% if chunks|length == 0 %}
+            <p>No documents uploaded yet.</p>
+        {% else %}
+            <div class="controls">
+                <button onclick="filterChunks('all')" class="active">All</button>
+                <button onclick="filterChunks('low')">High Accuracy</button>
+                <button onclick="filterChunks('medium')">Medium Accuracy</button>
+                <button onclick="filterChunks('high')">Low Accuracy</button>
+            </div>
+
+            <div class="chunks-wrapper">
+                {% for chunk in chunks %}
+                    {% if chunk.score >= 0 and chunk.score < 0.33 %}
+                        {% set cls = "low" %}
+                    {% elif chunk.score >= 0.33 and chunk.score < 0.66 %}
+                        {% set cls = "medium" %}
+                    {% else %}
+                        {% set cls = "high" %}
+                    {% endif %}
+                    <div class="chunk {{ cls }}">
+                        <p>{{ chunk.text }}</p>
+                        <p class="score">Score: {{ "%.4f"|format(chunk.score) }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function filterChunks(type) {
+            const buttons = document.querySelectorAll('.controls button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const chunks = document.querySelectorAll('.chunk');
+            chunks.forEach(chunk => {
+                if (type === 'all') {
+                    chunk.style.display = 'block';
+                } else if (chunk.classList.contains(type)) {
+                    chunk.style.display = 'block';
+                } else {
+                    chunk.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
